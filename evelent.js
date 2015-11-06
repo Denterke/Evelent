@@ -11,9 +11,12 @@ server.route({
     method: 'GET',
     path:'/evelent',
     handler: function (request, reply) {
-      reply('WORK SERVER!');
+      reply('SERVER IS WORKING!');
     }
 });
+
+require('./getEventParams')(server); // getEventParams
+require('./client')(server); // getEventParams
 
 // Start the server
 server.start(function () {
