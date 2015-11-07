@@ -16,7 +16,13 @@ server.route({
 });
 
 require('./getEventParams')(server); // getEventParams
-require('./client')(server); // getEventParams
+require('./getEventsParams')(server); // getEventsParams
+require('./postEventParams')(server); // postEventParams
+
+require('./registerUser')(server); // postEventParams
+require('./authUser')(server); // postEventParams
+
+require('./client')(server); // client
 
 // Start the server
 server.start(function () {

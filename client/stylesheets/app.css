@@ -9737,5 +9737,16 @@ th.hide-for-touch {
 }
 /* line 4, ../scss/app.scss */
 #map {
-  height: 600px;
+  height: calc(100vh - 45px);
+}
+
+/* line 9, ../scss/app.scss */
+#registration h2, #registration-confirm h2 {
+  text-align: center;
+}
+/* line 12, ../scss/app.scss */
+#registration input[type=submit], #registration-confirm input[type=submit] {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

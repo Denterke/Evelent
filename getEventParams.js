@@ -6,39 +6,6 @@ var getEventParams = function(server) {
 
   server.route({
     method: 'GET',
-    path:'/evelent/getEventsParams',
-      handler: function (request, reply) {
-        var dateObj = new Date();
-
-        pg.connect(conString, function(err, client, done) {
-        if (err) {
-          reply('could not connect to postgres');
-          return console.error('could not connect to postgres', err);
-        }
-
-        client.query(
-          "SELECT * FROM events",
-          function(err, result) {
-            done();
-
-            if (err) throw err;
-
-            for (i=0; i<result.rows.length; i++) {
-              result.rows[i].date = Math.ceil((result.rows[i].date - dateObj)/3600000);
-              result.rows[i].visitors = result.rows[i].visitors.length;
-              delete(result.rows[i].description);
-              delete(result.rows[i].img_src);
-
-            }
-
-            reply(result.rows);
-        });
-      });
-    }
-  });
-
-  server.route({
-    method: 'GET',
     path:'/evelent/getEventParams/{event_id}&{user_id}',
       handler: function (request, reply) {
         var event_id = request.params.event_id;
@@ -51,13 +18,13 @@ var getEventParams = function(server) {
         }
 
         client.query(
-          "SELECT description, visitors, img_src FROM events WHERE id = '"+event_id+"'",
+          "SELECT name, date, description, visitors, img_src FROM events WHERE id = '"+event_id+"'",
           function(err, result) {
             done();
 
             if (err) throw err;
 
-            if (result.rows[0].visitors.indexOf(parseInt(user_id)) > -1 ) 
+            if (result.rows[0].visitors.indexOf(parseInt(user_id)) > -1 )
               result.rows[0].isVisitor = 'true';
             else
               result.rows[0].isVisitor = 'false';
