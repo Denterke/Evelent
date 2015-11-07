@@ -9750,3 +9750,56 @@ th.hide-for-touch {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* line 19, ../scss/app.scss */
+.button-group {
+  position: relative;
+  display: inline-block;
+  margin: 1rem 0;
+}
+/* line 23, ../scss/app.scss */
+.button-group:before {
+  content: attr(data-grouptype);
+  z-index: 99999;
+  color: #999;
+  display: block;
+  font-size: 1rem;
+  padding: 0.25em;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  left: 42.5%;
+  top: 0.35rem;
+}
+/* line 36, ../scss/app.scss */
+.button-group button + button {
+  margin-left: 5px;
+}
+
+/* line 41, ../scss/app.scss */
+ul {
+  list-style-type: none;
+}
+
+/* line 50, ../scss/app.scss */
+#container h2 {
+  text-align: center;
+}
+/* line 53, ../scss/app.scss */
+#container img {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 20px;
+  max-width: 100% !important;
+  height: auto;
+  max-height: 400px;
+}
+/* line 62, ../scss/app.scss */
+#container p {
+  text-align: justify;
+}
+/* line 65, ../scss/app.scss */
+#container i {
+  text-align: right;
+}

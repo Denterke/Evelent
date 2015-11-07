@@ -36,15 +36,15 @@ var authUser = function(server) {
         }
 
         client.query(
-          "SELECT COUNT (*) FROM users WHERE phone_number = '"+phone_number+"' AND phone_code = '"+phone_code+"'",
+          "SELECT (id) FROM users WHERE phone_number = '"+phone_number+"' AND phone_code = '"+phone_code+"'",
           function(err, result) {
             done();
             if (err) {
               throw err;
               return reply(err);
             }
-            if (result.rows[0].count == 1)
-              return reply('success');
+            if (result.rows[0])
+              return reply(result.rows[0].id);
             else
               return reply('failed');
         });

@@ -13,8 +13,8 @@
   MODAL BEGIN
   ****************************************-->
   <div id="registration" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-    <a data-reveal-id="registration-confirm" class="close-reveal-modal" aria-label="Close">&#215;</a>
-    <h2 id="modalTitle">Регистрация</h2>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    <h2 id="modalTitle">Войти</h2>
     <form id="registration-form">
       <div class="row">
         <div class="small-8 columns small-centered">
@@ -23,7 +23,7 @@
               <label for="right-label" class="right inline">Номер телефона</label>
             </div>
           <div class="small-9 columns">
-            <input name="phone_number " type="text" id="right-label" placeholder="Сюда мы пришлем код потверждения">
+            <input name="phone_number " type="text" id="phoneNumber" placeholder="Сюда мы пришлем код потверждения">
           </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
               <label for="right-label" class="right inline">Ник</label>
             </div>
           <div class="small-9 columns">
-            <input name="name" type="text" id="right-label" placeholder="Так вас будут называть в сети">
+            <input name="name" type="text" id="nickName" placeholder="Так вас будут называть в сети">
           </div>
           </div>
         </div>
@@ -56,7 +56,7 @@
               <label for="right-label" class="right inline">Код потверждения</label>
             </div>
           <div class="small-9 columns">
-            <input name="confirm" type="number" placeholder="Вводите код потверждения">
+            <input id="confirmCode" name="confirm" type="text" placeholder="Вводите код потверждения">
           </div>
           </div>
         </div>
@@ -65,6 +65,14 @@
     </form>
   </div>
 
+
+  <div id="event-details" class="reveal-modal full" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <a class="close-reveal-modal detail-close" aria-label="Close">&#215;</a>
+    <div id="container"></div>
+  </div>
+
+
+
   <!---**************************************
   MODAL END
   ****************************************-->
@@ -72,16 +80,20 @@
     
   <div class="off-canvas-wrap" data-offcanvas>
     <div class="inner-wrap">
-
       <nav class="tab-bar">
-
-        <div class="left-small">
-
-          <a href="#" data-reveal-id="registration">Регистрация</a>        
-
-
-        </div>
-
+          <section class="top-bar-section">
+            <ul class="left">
+              <li>
+                <a class="non-registered" href="#" data-reveal-id="registration">Регистрация</a>       
+              </li>
+              <li>
+                <a href="#" class="registered" id="logout">Выйти</a>
+              </li>
+              <li>
+                <a href="#" class="registered" data-reveal-id="create-event">Добавить событие</a>
+              </li>
+            </ul>
+          </section>
         <div class="right-small">
           <a href="#idOfLeftMenu" role="button" aria-controls="idOfLeftMenu" aria-expanded="false" class="right-off-canvas-toggle menu-icon" >
             <span></span>
@@ -99,7 +111,9 @@
       </aside>
 
     <!-- main content goes here -->
+      <div id="map-container">
         <div id="map"></div>
+      </div>
   <!-- close the off-canvas menu -->
       <a class="exit-off-canvas"></a>
     </div>
@@ -111,10 +125,9 @@
 
   <script src="js/app.js"></script>
   <script src="js/registration.js"></script>
-  
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
-
+  <script src="js/underscore-min.js"></script>
 
 
 </body>

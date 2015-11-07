@@ -5,6 +5,13 @@ $(document).foundation();
 
 $(document).ready(function(){
 
+    if (localStorage.getItem("nick") == null) {
+        $(".registered").css('display', 'none');
+    } else {
+        $(".non-registered").css('display', 'none');
+    }
+
+
 	var map = L.map('map').setView([43.11, 131.89], 13);
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -14,11 +21,25 @@ $(document).ready(function(){
     }).addTo(map);
 
     GetEventsList(map);
+
+    $(document).on('closed.fndtn.reveal', '#event-details', function () {
+        $("#event-details>#container").empty();
+    });
+
+
+    $("#logout").click(function(event) {
+        localStorage.removeItem("nick");
+        $(".registered").css('display', 'none');
+        $(".non-registered").css('display', 'block');
+    });
+
+
 })
 
 
 function GetEventsList(map) {
     $.get("http://31.131.24.188:8080/evelent/getEventsParams", function (data) {
+        console.log(data);
         var eventsData = data;
         for (var i = 0; i < eventsData.length; i++) {
             ShowEventCircle(eventsData[i], map);
@@ -27,63 +48,43 @@ function GetEventsList(map) {
 }
 
 function ShowEventCircle(eventData, map) {
-    if ((eventData["date"] <= 255) && (eventData["date"] >= 0)) {
-        console.log(eventData);
-        
-        var circle = L.circle([eventData["coordinates_x"], eventData["coordinates_y"]], eventData["visitors"] * 100, {
-            color: 'rgb(' + eventData["date"] + "," + (255-eventData["date"]) + ",0)",
-            fillColor: 'rgb(' + eventData["date"] + "," + (255-eventData["date"]) + ",0)",
+    if ((eventData["date"] <= 255) && (eventData["date"] >= 0)) {        
+         var circle = L.circle([eventData["coordinates_x"], eventData["coordinates_y"]], eventData["visitors"] * 3, {
+            color: 'rgb(' + (255 - eventData["date"]) + "," + eventData["date"] + ",0)",
+            fillColor: 'rgb(' + (255 - eventData["date"]) + "," + eventData["date"] + ",0)",
             fillOpacity: 1
         }).addTo(map);
 
-        circle.bindPopup("<h1>" + eventData["name"] + "</h1><div class='event-details-button' onclick='ShowEventDetails("+eventData["id"]+");'>•••</div>");
+        var title = "<h2>" + eventData["name"] + "</h2>";
+        
+        var more = "<a href='#' class='button' data-reveal-id='event-details' onclick='ShowDetails("+(eventData['id'])+")' >Подробнее</a>"
+        circle.bindPopup(title + more);
     }
 }
 
-function ShowEventDetails (id) {
-	$.get("http://31.131.24.188:8080/evelent/getEventParams/" + id + "&1", function (eventData) {
-		eventData = eventData[0];
-		$(".event-details-event-window-title").html(eventData["title"]);
-        $(".event-details-event-window-description").html(eventData["description"]);
-		
-		var date = new Date(eventData["date"]*1000);
-		console.log(date);
-		date = date.getDate();
-		console.log(date);
-		
-		$(".event-details-event-window-date").html(date);
-		$(".event-details-window").fadeIn(300);
-		
-		console.log(eventData);
-		
-		$(".event-details-event-window-image").css("background-image", "url('" + eventData["img_src"] + "')");
-	});
-}
+function ShowDetails(id){
+    $.get("http://31.131.24.188:8080/evelent/getEventParams/" + id + "&1", function (eventData) {
+        var info = eventData[0];
+        var title = info["name"];
+        var description = info['description'];
+        var date = new Date(info['date'] * 2);
+        var options = {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            weekday: 'long',
+            hour: 'numeric',
+            minute: 'numeric'
+        };
 
-function CloseEventDetailsWindow () {
-	$(".event-details-window").fadeOut(300);
-}
+        date = date.toLocaleString("ru", options);
 
-function SubmitRegistrationForm() {
-    var formData = $("#regform").serialize();
-    
-	localStorage.setItem('phone_number', $("#phone").val());
-    
-	console.log("Пытаемся зарегаться");
-	
-	$.post("", formData, function (data) {
-        console.log(data);
-        if (data == "register_success") {
-			SendVerificationRequest($("#phone").val());
-			localStorage.setItem("isLoggedIn", "true");
-        }
-        else
-            navigator.notification.alert("Какое-то из полей не было заполнено", null, "Ошибка","Ok");
-    });
-}
 
-function SendVerificationRequest(phone_without_8) {
-    $.get("" + phone_without_8, function(data) {
-        console.log(data);
+
+        var node = $("#event-details #container");
+        node.append("<h2>" + title + "</h2>");
+        node.append("<img src='" + info['img_src'] +"'/>");
+        node.append("<i>" + date + "</i>");
+        node.append("<p>" + description + "</p>");
     });
 }

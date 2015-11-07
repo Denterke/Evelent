@@ -16,20 +16,22 @@ var postEventParams = function(server) {
       var coordinates_x = request.payload.coordinates_x;
       var coordinates_y = request.payload.coordinates_y;
       var creator       = request.payload.visitor;
-      var image         = request.payload.fileUpload;
+      var place         = decodeURI(request.payload.place);
       var img_src       = 'images/events_img/default_event_img.jpg';
 
       var schema = {
-        name:          joi.string().regex(/^[а-яА-ЯёЁa-zA-Z0-9,. !?]+$/).min(5).max(75).required(),
-        description:   joi.string().regex(/^[а-яА-ЯёЁa-zA-Z0-9,. !?]+$/).min(10).max(500).required(),
+        name:          joi.string().min(5).max(75).required(),
+        description:   joi.string().min(10).max(1000).required(),
+        place:         joi.string().min(5).max(70).required(),
         date:          joi.date().required(),
         coordinates_x: joi.string().regex(/\-?\d+(\.\d{0,})?/).required(),
         coordinates_y: joi.string().regex(/\-?\d+(\.\d{0,})?/).required(),
-        creator:       joi.string().regex(/^[0-9]+$/).required()
+        creator:       joi.string().regex(/^[0-9, ]+$/).required()
       };
       var value = {
           name:          name,
           description:   description,
+          place:         place,
           date:          date,
           coordinates_x: coordinates_x,
           coordinates_y: coordinates_x,
@@ -42,12 +44,22 @@ var postEventParams = function(server) {
           return reply(err.details[0].message);
         }
         else {
+          if (name.indexOf('<') > -1 || description.indexOf('<') > -1 || place.indexOf('<') > -1) {
+              console.log('err - <');
+              return reply('u have error!');
+          }
 
-          if (image) {//дописать проверку расширения
-            img_src   = 'images/events_img/'+randomString()+name+'.jpg'; //сделать уникальное имя
+          if (typeof(request.payload.fileUpload) == 'string') {
+            var image = request.payload.fileUpload.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+            var fileBuffer = new Buffer(image, "base64");
+          }
+          else var fileBuffer = request.payload.fileUpload;
+
+          if (fileBuffer) {//дописать проверку расширения
+            img_src   = 'images/events_img/'+randomString()+'.jpg'; //сделать уникальное имя
             fs.writeFile(
               img_src,
-              image,
+              fileBuffer,
               function(err) {
                 if (err) throw err;
               }
@@ -61,7 +73,7 @@ var postEventParams = function(server) {
             }
 
             client.query(
-              "INSERT INTO events (name, date, description, coordinates_x, coordinates_y, visitors, img_src) VALUES ('"+name+"','"+date+"','"+description+"','"+coordinates_x+"','"+coordinates_y+"','{"+creator+"}','http://31.131.24.188:8080/evelent/"+img_src+"')",
+              "INSERT INTO events (name, date, description, coordinates_x, coordinates_y, visitors, img_src, place) VALUES ('"+name+"','"+date+"','"+description+"','"+coordinates_x+"','"+coordinates_y+"','{"+creator+"}','http://31.131.24.188:8080/evelent/"+img_src+"','"+place+"')",
               function(err, result) {
                 done();
                 if (err) {

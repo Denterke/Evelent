@@ -22,6 +22,9 @@ require('./postEventParams')(server); // postEventParams
 require('./registerUser')(server); // postEventParams
 require('./authUser')(server); // postEventParams
 
+require('./goToEvent')(server);
+
+
 require('./client')(server); // client
 
 // Start the server

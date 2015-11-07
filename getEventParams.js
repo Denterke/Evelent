@@ -18,7 +18,7 @@ var getEventParams = function(server) {
         }
 
         client.query(
-          "SELECT name, date, description, visitors, img_src FROM events WHERE id = '"+event_id+"'",
+          "SELECT name, date, description, visitors, img_src, place FROM events WHERE id = '"+event_id+"'",
           function(err, result) {
             done();
 
