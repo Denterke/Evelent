@@ -15,7 +15,7 @@ var authUser = function(server) {
 
       var schema = {
         phone_number: joi.string().regex(/^\d+$/).length(10),
-        phone_code: joi.string().alphanum().min(4).length(6)
+        phone_code: joi.string().regex(/^\d+$/).length(4)
       };
       var value = {
         phone_number: phone_number,

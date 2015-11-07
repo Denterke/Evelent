@@ -46,17 +46,17 @@ var registerUser = function(server) {
                     function(err, result) {
                       done();
                       if (err) throw err;
-                      //getRequest('http://gate.prostor-sms.ru/send/?phone=%2B7'+phone_number+'&text='+result.rows[0].phone_code+'&login=t89242331814&password=456570');
+                      getRequest('http://gate.prostor-sms.ru/send/?phone=%2B7'+phone_number+'&text='+result.rows[0].phone_code+'&login=t89242331814&password=456570');
                   });
 
                   return reply('success');
                 }
 
-              /*getRequest('http://gate.prostor-sms.ru/send/?phone=%2B7'+phone_number+'&text='+phone_code+'&login=t89242331814&password=456570', function (error, response, body) {
+              getRequest('http://gate.prostor-sms.ru/send/?phone=%2B7'+phone_number+'&text='+phone_code+'&login=t89242331814&password=456570', function (error, response, body) {
                 if (!error && response.statusCode == 200)
                   console.log(body) // Show the HTML for the Google homepage.
                 else console.log(response);
-              });*/
+              });
 
               console.log(name, phone_number, phone_code);
               return reply('success');
