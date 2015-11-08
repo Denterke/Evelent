@@ -9736,56 +9736,36 @@ th.hide-for-touch {
   }
 }
 /* line 4, ../scss/app.scss */
+#event-details {
+  height: auto;
+}
+
+/* line 8, ../scss/app.scss */
 #map {
   height: calc(100vh - 45px);
 }
 
-/* line 9, ../scss/app.scss */
+/* line 13, ../scss/app.scss */
 #registration h2, #registration-confirm h2 {
   text-align: center;
 }
-/* line 12, ../scss/app.scss */
+/* line 16, ../scss/app.scss */
 #registration input[type=submit], #registration-confirm input[type=submit] {
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* line 19, ../scss/app.scss */
-.button-group {
-  position: relative;
-  display: inline-block;
-  margin: 1rem 0;
-}
-/* line 23, ../scss/app.scss */
-.button-group:before {
-  content: attr(data-grouptype);
-  z-index: 99999;
-  color: #999;
-  display: block;
-  font-size: 1rem;
-  padding: 0.25em;
-  border-radius: 50%;
-  background: #fff;
-  position: absolute;
-  left: 42.5%;
-  top: 0.35rem;
-}
-/* line 36, ../scss/app.scss */
-.button-group button + button {
-  margin-left: 5px;
-}
-
-/* line 41, ../scss/app.scss */
+/* line 22, ../scss/app.scss */
 ul {
   list-style-type: none;
 }
 
-/* line 50, ../scss/app.scss */
+/* line 31, ../scss/app.scss */
 #container h2 {
   text-align: center;
 }
-/* line 53, ../scss/app.scss */
+/* line 34, ../scss/app.scss */
 #container img {
   display: block;
   margin-right: auto;
@@ -9795,11 +9775,21 @@ ul {
   height: auto;
   max-height: 400px;
 }
-/* line 62, ../scss/app.scss */
+/* line 43, ../scss/app.scss */
 #container p {
   text-align: justify;
 }
-/* line 65, ../scss/app.scss */
+/* line 46, ../scss/app.scss */
 #container i {
   text-align: right;
+}
+
+/* line 52, ../scss/app.scss */
+.leaflet-popup-content .button-group {
+  display: inline-block;
+}
+
+/* line 57, ../scss/app.scss */
+.inline-block-wrapper {
+  text-align: center;
 }

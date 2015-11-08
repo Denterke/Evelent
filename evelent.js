@@ -27,6 +27,8 @@ require('./goToEvent')(server);
 
 require('./client')(server); // client
 
+var getRequest = require('request');
+getRequest('http://t89242331814:456570@gate.prostor-sms.ru/credits/');
 // Start the server
 server.start(function () {
     console.log('Server running at:', server.info.uri);

@@ -29,6 +29,8 @@ var getEventParams = function(server) {
             else
               result.rows[0].isVisitor = 'false';
 
+            result.rows[0].date = new Date(parseInt(result.rows[0].date));
+            
             reply(result.rows);
         });
       });
