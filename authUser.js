@@ -44,7 +44,7 @@ var authUser = function(server) {
               return reply(err);
             }
             if (result.rows[0])
-              return reply(result.rows[0].id);
+              return reply('success' + result.rows[0].id);
             else
               return reply('failed');
         });

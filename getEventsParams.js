@@ -23,14 +23,17 @@ var getEventsParams = function(server) {
 
             if (err) throw err;
 
+            var averageVisitors = 0;
             for (i=0; i<result.rows.length; i++) {
               result.rows[i].date = Math.ceil((result.rows[i].date - Date.parse(dateObj))/3600000);
               result.rows[i].visitors = result.rows[i].visitors.length;
+              averageVisitors += result.rows[i].visitors;
               //delete(result.rows[i].place);
               delete(result.rows[i].description);
               delete(result.rows[i].img_src);
-
             }
+
+            result.rows[result.rows.length-1].averageVisitors = Math.ceil((averageVisitors/result.rows.length)/2);
 
             reply(result.rows);
         });

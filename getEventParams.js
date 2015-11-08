@@ -29,8 +29,13 @@ var getEventParams = function(server) {
             else
               result.rows[0].isVisitor = 'false';
 
-            result.rows[0].date = new Date(parseInt(result.rows[0].date));
-            
+            var date = result.rows[0].date;
+            date = new Date(parseInt(date));
+            var monthes_names =['янв','фев','мар','апр','мая','июня','июля','авг','сен','окт','ноя','дек'];
+            var minutes = (date.getMinutes() + "").length == 1 ? "0" + date.getMinutes() : date.getMinutes();
+            date = date.getDate() + " " + monthes_names[date.getMonth()] + " " + date.getFullYear() + "г. " + date.getHours() + ":" + minutes;
+            result.rows[0].date = date;
+
             reply(result.rows);
         });
       });
